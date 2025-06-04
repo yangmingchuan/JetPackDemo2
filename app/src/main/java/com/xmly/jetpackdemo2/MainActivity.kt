@@ -8,6 +8,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -113,7 +114,10 @@ fun MessageItem(message: MessageBean) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp),
+            .padding(horizontal = 16.dp, vertical = 8.dp)
+            .clickable { // 添加一个新的 Modifier 扩展方法，可以让元素具有点击的效果
+                isExpanded.value = !isExpanded.value // 使用.value来访问和修改状态
+            },
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
         Column(
@@ -163,11 +167,48 @@ fun MessageItem(message: MessageBean) {
             
             Spacer(modifier = Modifier.padding(vertical = 8.dp))
             
-            Text(
-                text = message.content,
-                fontSize = 16.sp,
-                modifier = Modifier.padding(start = 4.dp)
-            )
+            // 根据折叠状态显示不同内容
+            if (isExpanded.value) {
+                // 展开时显示完整内容
+                Text(
+                    text = message.content,
+                    fontSize = 16.sp,
+                    modifier = Modifier.padding(start = 4.dp)
+                )
+                
+                // 添加额外的详细信息
+                Spacer(modifier = Modifier.padding(vertical = 4.dp))
+                Text(
+                    text = "详细信息: ID ${message.id} 的消息",
+                    fontSize = 14.sp,
+                    color = Color.Gray,
+                    modifier = Modifier.padding(start = 4.dp)
+                )
+                
+                // 添加一个指示折叠的文本
+                Text(
+                    text = "点击收起",
+                    fontSize = 12.sp,
+                    color = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.padding(top = 8.dp, start = 4.dp)
+                )
+            } else {
+                // 折叠时只显示简短内容
+                Text(
+                    text = message.content,
+                    fontSize = 16.sp,
+                    maxLines = 1, // 限制最大行数
+                    modifier = Modifier.padding(start = 4.dp)
+                )
+                
+                // 添加一个指示展开的文本
+                Text(
+                    text = "点击展开更多...",
+                    fontSize = 12.sp,
+                    color = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.padding(top = 4.dp, start = 4.dp)
+                )
+            }
         }
     }
 }
