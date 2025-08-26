@@ -12,11 +12,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -35,11 +37,60 @@ import com.xmly.jetpackdemo2.MessageBean
 fun MessageItem(message: MessageBean) {
     val context = LocalContext.current
     var isExpanded = remember { mutableStateOf(false) }
+    var showDialog = remember { mutableStateOf(false) }
     
+    // 弹窗逻辑
+    if (showDialog.value && message.showDialog) {
+        AlertDialog(
+            onDismissRequest = {
+                showDialog.value = false
+            },
+            title = {
+                Text(
+                    text = "喜马拉雅消息",
+                    fontWeight = FontWeight.Bold,
+                    style = MaterialTheme.typography.headlineSmall
+                )
+            },
+            text = {
+                Text(
+                    text = "这是一条来自喜马拉雅的重要消息：${message.content}",
+                    fontSize = 16.sp
+                )
+            },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        showDialog.value = false
+                    }
+                ) {
+                    Text(
+                        "确认",
+                        fontWeight = FontWeight.Bold,
+                        style = MaterialTheme.typography.labelLarge
+                    )
+                }
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = {
+                        showDialog.value = false
+                    }
+                ) {
+                    Text(
+                        "取消",
+                        fontWeight = FontWeight.Bold,
+                        style = MaterialTheme.typography.labelLarge
+                    )
+                }
+            }
+        )
+    }
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp)
+            .padding(horizontal = 12.dp, vertical = 6.dp)
             .clickable {
                 isExpanded.value = !isExpanded.value
             },
@@ -84,7 +135,11 @@ fun MessageItem(message: MessageBean) {
                 Spacer(modifier = Modifier.weight(1f))
                 
                 Button(onClick = {
-                    Toast.makeText(context, "消息ID: ${message.id}", Toast.LENGTH_SHORT).show()
+                    if (message.showDialog) {
+                        showDialog.value = true
+                    } else {
+                        Toast.makeText(context, "消息ID: ${message.id}", Toast.LENGTH_SHORT).show()
+                    }
                 }) {
                     Text(text = "查看")
                 }

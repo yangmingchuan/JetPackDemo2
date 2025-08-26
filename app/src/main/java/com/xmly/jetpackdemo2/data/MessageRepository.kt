@@ -22,7 +22,8 @@ class MessageRepository {
                 id = 3,
                 title = "喜马拉雅",
                 content = "发现更多有声内容和播客",
-                time = "12:15 PM"
+                time = "12:15 PM",
+                showDialog = true
             ),
             MessageBean(
                 id = 4,

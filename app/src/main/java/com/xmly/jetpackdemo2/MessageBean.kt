@@ -15,5 +15,6 @@ data class MessageBean(
     val avatar: Int = R.drawable.ic_launcher_background,
     val title: String,
     val content: String,
-    val time: String
+    val time: String,
+    val showDialog: Boolean = false
 )
