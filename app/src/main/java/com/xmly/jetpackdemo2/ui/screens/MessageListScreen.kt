@@ -1,5 +1,6 @@
 package com.xmly.jetpackdemo2.ui.screens
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -7,21 +8,27 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.xmly.jetpackdemo2.ui.components.MessageItem
 import com.xmly.jetpackdemo2.ui.viewmodels.MessageViewModel
+import androidx.compose.ui.platform.LocalContext
 
 @Composable
 fun MessageListScreen(
     viewModel: MessageViewModel = MessageViewModel()
 ) {
+    val context = LocalContext.current
+    
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
@@ -32,19 +39,23 @@ fun MessageListScreen(
                     MessageItem(message = message)
                 }
             }
-            
-            FloatingActionButton(
-                onClick = { viewModel.addRandomMessage() },
+
+            ExtendedFloatingActionButton(
+                onClick = {
+                    viewModel.addRandomMessage()
+                    Toast.makeText(context, "已添加随机消息", Toast.LENGTH_SHORT).show()
+                },
                 modifier = Modifier
                     .align(Alignment.BottomEnd)
                     .padding(16.dp),
                 containerColor = MaterialTheme.colorScheme.primary,
-                contentColor = MaterialTheme.colorScheme.onPrimary
+                contentColor = MaterialTheme.colorScheme.onPrimary,
             ) {
                 Icon(
                     imageVector = Icons.Default.Add,
                     contentDescription = "添加随机消息"
                 )
+                Text("添加")
             }
         }
     }

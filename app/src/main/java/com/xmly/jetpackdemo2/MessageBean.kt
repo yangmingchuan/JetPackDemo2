@@ -12,7 +12,7 @@ package com.xmly.jetpackdemo2
  */
 data class MessageBean(
     val id: Int,
-    val avatar: Int = R.drawable.ic_launcher_background,
+    val avatar: String = "https://via.placeholder.com/50x50/2196F3/FFFFFF?text=Avatar",
     val title: String,
     val content: String,
     val time: String,

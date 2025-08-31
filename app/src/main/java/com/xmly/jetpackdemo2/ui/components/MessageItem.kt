@@ -2,7 +2,6 @@ package com.xmly.jetpackdemo2.ui.components
 
 import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -27,10 +26,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.xmly.jetpackdemo2.MessageBean
 
 @Composable
@@ -103,8 +102,8 @@ fun MessageItem(message: MessageBean) {
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Image(
-                    painterResource(id = message.avatar),
+                AsyncImage(
+                    model = message.avatar,
                     contentDescription = "Avatar",
                     modifier = Modifier
                         .size(50.dp)
